@@ -1,0 +1,113 @@
+
+//NGUYEN MANH CHI 22810310044	
+#include<iostream>
+
+using namespace std;
+
+struct tailieu{
+	int ma;
+	string ten;
+	int nam;
+	float gia;
+};
+
+void nhap(tailieu a[], int n){
+	for(int i=0;i<n;i++){
+		cout << "->nhap tai lieu thu:"<< i+1 << endl;
+		cout << "nhap ma tai lieu:";
+		cin >> a[i].ma;
+		
+		cout << "nhap ten tai lieu:";
+		cin.ignore();
+		getline(cin, a[i].ten);
+		
+		cout << "nhap nam san xuat:";
+		cin >> a[i].nam;
+		
+		cout << "nhap gia ban:";
+		cin >> a[i].gia;
+	}
+}
+
+void xuat(tailieu a[], int n){
+	for(int i=0;i<n;i++){
+		cout << "->ma:"<<a[i].ma << ", ten:"<<a[i].ten<<",nam sx:"<<a[i].nam << ", gia ban:"<<a[i].gia<<endl;
+	}
+}
+
+void SelectionSort(tailieu a[], int n){
+	int min;
+	for(int i=0;i<n;i++){
+		min=i;
+		for(int j=i+1;j<n;j++){
+			if(a[j].gia<a[min].gia)
+			min=j;
+		}
+		tailieu x =a[min];
+		a[min]=a[i];
+		a[i]=x;
+	}
+}
+
+int BinarySearch(float gia, tailieu a[], int n){
+	int m, bottom,top;
+	bottom=0;
+	top=n-1;
+	while(bottom<=top)
+	{
+		m=(bottom + top + 1)/2;
+		if(gia==a[m].gia)
+			return m;
+		else if(gia < a[m].gia) top=m-1;
+		else bottom=m+1;
+	}
+	return -1;
+}
+
+void SearchALL(float gia, tailieu a[], int n){
+	int found=BinarySearch(gia,a,n);
+	if(found==-1)
+	cout << "\n\n\tk co tai lieu co gia ban bang "<< gia << endl;
+	else{
+		cout << " \n\n\tcac tai lieu co gia ban bang "<< gia << " la :";
+		int i=found;
+		while(i<n&&a[i].gia==gia){
+			cout << "ma:"<<a[i].ma <<",ten:"<<a[i].ten
+				 <<", nam sx:"<< a[i].nam << ", gia ban:"<<a[i].gia<<endl;
+			i++;
+		}
+		i=found-1;
+		while(i>=0&&a[i].gia==gia)
+		{
+			cout << "ma:"<<a[i].ma <<",ten:"<<a[i].ten
+				 <<", nam sx:"<< a[i].nam << ", gia ban:"<<a[i].gia<<endl;
+			i--;
+		}
+	}
+	
+}
+
+int main(){
+	int n;
+	cout << "nhap so luong tai lieu:";
+	cin >> n;
+	cin.ignore();
+	
+	tailieu *a=new tailieu[n];
+	
+	nhap(a,n);
+	
+	cout<<"\n\n\tDANH SACH TAI LIEU:\n";
+	xuat(a,n);
+	
+	cout << "\n\n\tDANH SACH SAU KHI SX TANG DAN THEO GIA BAN:\n";
+	SelectionSort(a,n);
+	xuat(a,n);
+	
+	float gia;
+	cout << "\n\n\tnhap gia ban can tim kiem:";
+	cin >> gia;
+	SearchALL(gia,a,n);
+	
+	
+}
